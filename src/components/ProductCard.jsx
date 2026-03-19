@@ -10,18 +10,18 @@ export function ProductCard({ product }) {
   const handleAddToCart = () => {
     addToCart(product);
 
-    // Notificação interativa (UX de alto nível)
+    // Notificação interativa ajustada para os campos do Django
     toast.success((t) => (
       <div className="flex items-center justify-between gap-4 min-w-[250px]">
         <div className="flex flex-col">
           <span className="font-bold text-sm text-gray-800">Adicionado!</span>
-          <span className="text-xs text-gray-500 truncate w-32">{product.name}</span>
+          <span className="text-xs text-gray-500 truncate w-32">{product.nome}</span>
         </div>
         
         <button 
           onClick={() => {
-            toast.dismiss(t.id); // Fecha o aviso
-            navigate('/checkout'); // Leva o usuário ao caixa
+            toast.dismiss(t.id);
+            navigate('/checkout');
           }}
           className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-colors shadow-sm"
         >
@@ -41,29 +41,30 @@ export function ProductCard({ product }) {
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-md transition-all duration-300">
-      {/* Container da Imagem */}
+      {/* Container da Imagem - Ajustado para 'imagem' */}
       <div className="relative h-48 overflow-hidden bg-gray-100">
         <img 
-          src={product.image} 
-          alt={product.name}
+          src={product.imagem || 'https://via.placeholder.com/300x200?text=Sem+Imagem'} 
+          alt={product.nome}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         <span className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider text-gray-600 border border-gray-100">
-          {product.category}
+          {product.categoria || 'Geral'}
         </span>
       </div>
 
-      {/* Informações do Produto */}
+      {/* Informações do Produto - Ajustado para 'nome' */}
       <div className="p-5">
         <h3 className="font-bold text-gray-800 text-lg mb-1 line-clamp-1">
-          {product.name}
+          {product.nome}
         </h3>
         
         <div className="flex items-center justify-between mt-4">
           <div>
             <p className="text-[10px] text-gray-400 uppercase font-bold tracking-tight">Preço à vista</p>
+            {/* Blindagem do toFixed para evitar erro de 'undefined' */}
             <p className="text-xl font-black text-blue-600">
-              R$ {product.price.toFixed(2)}
+              R$ {product.preco ? Number(product.preco).toFixed(2) : "0.00"}
             </p>
           </div>
 

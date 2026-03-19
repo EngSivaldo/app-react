@@ -1,11 +1,10 @@
 import axios from 'axios';
 
 const api = axios.create({
-  // Se estiver usando Django (8000) ou Node (3000/5000) no WSL
-  baseURL: 'http://localhost:8000/api', 
+  baseURL: 'http://127.0.0.1:8000/api', // Verifique se o Django está rodando nesta porta
 });
 
-// Interceptor: Adiciona o token automaticamente em todas as requisições
+// Adiciona o token em cada requisição automaticamente
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('@DevStore:token');
   if (token) {
